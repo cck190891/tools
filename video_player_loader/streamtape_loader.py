@@ -1,6 +1,6 @@
 import requests
 import bs4
-from ..js_exe import js_runner
+from ..tools.js_exe import js_runner
 import re
 from urllib.parse import urlparse
 import time
