@@ -25,12 +25,20 @@ class roboflow_multiupload(object):
                 self.upload_list.append([img_path,anno_path,split,self.num_retry_uploads])
 
     def single_upload_wrapper(self,single_params):
-        self.project.single_upload(
-            image_path=single_params[0],
-            annotation_path=single_params[1],
-            split=single_params[2],
-            num_retry_uploads=single_params[3],
-        )
+        #沒標記資料單純上傳影像
+        if os.path.exists(single_params[1]):
+            self.project.single_upload(
+                image_path=single_params[0],
+                annotation_path=single_params[1],
+                split=single_params[2],
+                num_retry_uploads=single_params[3],
+            )
+        else:
+            self.project.single_upload(
+                image_path=single_params[0],
+                split=single_params[2],
+                num_retry_uploads=single_params[3],
+            )
         self.process_bar.update(1)
 
     def go_pool(self):
@@ -42,6 +50,7 @@ class roboflow_multiupload(object):
         self.process_bar.close()
     def __str__(self) -> str:
         print(len(self.upload_list))
+
 
 if __name__=='__main__':
     #要儲存的位置與yolo資料集路徑
